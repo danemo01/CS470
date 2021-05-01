@@ -105,4 +105,4 @@ def rectangle_solver(rect_puzzle):
         print('')
 
 
-rectangle_solver(example_2)
+rectangle_solver(example_1)
