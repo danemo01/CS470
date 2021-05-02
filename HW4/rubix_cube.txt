@@ -1,0 +1,79 @@
+#         +-------+
+#         | 16 17 |
+#         | 18 19 |
+# +-------+-------+-------+-------+
+# | 12 13 |  0  1 |  4  5 |  8  9 |
+# | 14 15 |  2  3 |  6  7 | 10 11 |
+# +-------+-------+-------+-------+
+#         | 20 21 |
+#         | 22 23 |
+#         +-------+
+#
+#   0 -> blue   1 -> white   2 -> green   3 -> yellow   4 -> red   5 -> orange
+#
+# - We know that in some sense that 8 Cubes, let's try to put them in pattern
+#           F/B,  L,R,  T/B
+# cube 1 - { 0, 13, 18}
+# cube 2 - { 1,  4, 19}
+# cube 3 - { 2, 15, 20}
+# cube 4 - { 3,  6, 21}
+# cube 5 - { 8, 5, 17}
+# cube 6 - { 9, 12, 16}
+# cube 7 - { 10, 7, 23
+# cube 8 - { 11, 22, 14}
+# So at this point we want to consider how far a particular move is in a particular situation?
+#
+# # A diagram of the perfect state
+#
+#
+#         +-------+
+#         |  4  4 |
+#         |  4  4 |
+# +-------+-------+-------+-------+
+# | 3  3  |  0  0 |  1  1 |  2  2 |
+# | 3  3  |  0  0 |  1  1 |  2  2 |
+# +-------+-------+-------+-------+
+#         | 5  5  |
+#         | 5  5  |
+#         +-------+
+#
+# We can probably assume that we need to consider the weights by the cube spot.
+# Let's map the Cubes to the sides at the Perfect State
+#
+#some_cube =  {Front/Back,  Left,Right,  Top/Bottom}
+#                                                      reversion
+# cube 1 - { 0, 13, 18} {blue, yellow, red}      | {'0', '3', '4'}
+# cube 2 - { 1,  4, 19} {blue, white, red}      | {'0', '1', '4'}
+# cube 3 - { 2, 15, 20} {blue, yellow, orange}   | {'0', '3', '5'}
+# cube 4 - { 3,  6, 21} {blue, white, orange}   | {'0', '1', '5'}
+
+# cube 5 - { 8, 5, 17}  {green, white, red}     | {'2', '3', '4'}
+# cube 6 - { 9, 12, 16} {green, yellow, red}     | '2', '1', '4'}
+# cube 7 - { 10, 7, 23} {green, white, orange}  | {'2', '3', '5'}
+# cube 8 - { 11, 14, 22}{green, yellow, orange}  | {'2', '1', '5'}
+
+Now we know there's specific cubes, now let's try to understand two problems prof gave us and if we can analyze
+weight of state.
+
+How many steps away from originate state
+       Easy rubix Steps:
+In this scenerio cube 1 is
+{0,13,18} = {blue, yellow, red}
+It's in the left position at the topright, and it seems it'd take 4 moves?
+
+- Takes zero moves!
+This is interesitng because even though this takes zero moves, what about the rest?
+Should we try to know how many moves it takes for each cube?
+or the max about the steps?
+
+Let's try cube 2:
+#cube 2 - { 1,  4, 19} {blue, white, red}
+
+Where's is cube 2?:
+It takes zero movies, but the array is not in order.
+Maybe we suggest weight on pos?
+blue is on top not on front -1
+white is on front and not on left?
+red is on left but not on top??
+
+To get into that same state it took essentially 4 moves

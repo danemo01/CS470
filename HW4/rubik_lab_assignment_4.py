@@ -1,3 +1,5 @@
+from enum import Enum
+
 import numpy as np
 from collections import deque
 import bisect
@@ -64,8 +66,10 @@ neighbor_z2 = np.array([5, 7, 13, 15, 18, 19, 22, 23], dtype = np.int)
 neighbor1 = np.array([0, 0, 1, 2, 4, 4, 5, 6, 8, 8, 9, 10, 12, 12, 13, 14, 16, 16, 17, 18, 20, 20, 21, 22], dtype=np.int)
 neighbor2 = np.array([1, 2, 3, 3, 5, 6, 7, 7, 9, 10, 11, 11, 13, 14, 15, 15, 17, 18, 19, 19, 21, 22, 23, 23], dtype = np.int)
 
+
 start_state_9_moves = np.array([0, 1, 4, 0, 4, 2, 1, 0, 5, 4, 5, 5, 1, 3, 1, 2, 2, 3, 4, 0, 3, 5, 2, 3], dtype=np.uint8)
-start_state_x = np.array([0, 1, 4, 0, 4, 2, 1, 0, 5, 4, 5, 5, 1, 3, 1, 2, 2, 3, 4, 0, 3, 5, 2, 3], dtype=np.uint8)
+#start_state_x = np.array([0, 1, 4, 0, 4, 2, 1, 0, 5, 4, 5, 5, 1, 3, 1, 2, 2, 3, 4, 0, 3, 5, 2, 3], dtype=np.uint8)
+start_state_x = np.array([0, 2, 3, 4, 1, 2, 2, 0, 3, 1, 3, 1, 0, 5, 0, 2, 5, 4, 3, 5, 5, 1, 4, 4], dtype=np.uint8)
 start_state_easy = np.array([1, 1, 0, 0, 2, 2, 1, 1, 3, 3, 2, 2, 0, 0, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5], dtype=np.uint8)
 start_state_11_moves = np.array([0, 0, 0, 0, 3, 3, 3, 1, 2, 2, 2, 2, 3, 1, 1, 1, 4, 5, 5, 5, 4, 4, 4, 5], dtype=np.uint8)
 perfect_state = np.array([0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5], dtype=np.uint8)
@@ -73,7 +77,8 @@ perfect_state = np.array([0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 
 class HistoryEntry(object):
     __slots__ = ['operation', 'new_state', 'new_score']
 
-start_state = perfect_state.copy()
+#start_state = perfect_state.copy()
+start_state = start_state_9_moves.copy()
 goal_state = []
 
 def coords(x_cell, y_cell, center=False):
@@ -202,11 +207,90 @@ def get_clicked_button():
         if cell_x >= 0 and cell_x < NUM_CELLS[0] and cell_y >= 0 and cell_y < NUM_CELLS[1]:
             return (cell_x, cell_y)
 
+class analyze:
+
+    def __init__(self, state, goal):
+        self.h = 0
+        self.state = state
+        self.goal = goal
+
+        self.s_cu_1 = (state[0],state[13], state[18])
+        self.s_cu_2 = (state[1], state[4], state[19])
+        self.s_cu_3 = (state[2], state[15], state[20])
+        self.s_cu_4 = (state[3], state[6], state[21])
+        self.s_cu_5 = (state[8], state[12], state[17])
+        self.s_cu_6 = (state[9], state[7], state[16])
+        self.s_cu_7 = (state[10], state[7], state[23])
+        self.s_cu_8 = (state[11], state[14], state[22])
+
+        self.g_cu_1 = (goal[0],goal[13], goal[18])
+        self.g_cu_2 = (goal[1], goal[4], goal[19])
+        self.g_cu_3 = (goal[2], goal[15], goal[20])
+        self.g_cu_4 = (goal[3], goal[6], goal[21])
+        self.g_cu_5 = (goal[8], goal[12], goal[17])
+        self.g_cu_6 = (goal[9], goal[7],  goal[16])
+        self.g_cu_7 = (goal[10], goal[7],  goal[23])
+        self.g_cu_8 = (goal[11], goal[22], goal[14])
+
+        self.can_you_run()
+
+
+    def calcMiniCube(self, s_cube, g_cube):
+        something = 0
+
+        if s_cube[0] == g_cube[0]:
+            something+=0
+        elif s_cube[0] == g_cube[1]:
+            something+=1
+
+        if s_cube[1] == g_cube[2]:
+            something+=1
+        else:
+            something+=2
+
+        if s_cube[2] == 2:
+            something+=1
+        else:
+            something+=2
+
+
+        return (s_cube[0] + g_cube[0] ) - (s_cube[1] + g_cube[1]) + (s_cube[2] - g_cube[2])
+
+    """
+        I don't know, can you run.
+        Let's do this.
+        
+        We know that the vector has 
+        8 cubes (tuples)
+    
+    """
+    def can_you_run(self):
+
+        self.h += self.calcMiniCube(self.g_cu_1, self.s_cu_1)
+        self.h += self.calcMiniCube(self.g_cu_2, self.s_cu_2)
+        self.h += self.calcMiniCube(self.g_cu_3, self.s_cu_3)
+        self.h += self.calcMiniCube(self.g_cu_4, self.s_cu_4)
+        self.h += self.calcMiniCube(self.g_cu_5, self.s_cu_5)
+        self.h += self.calcMiniCube(self.g_cu_6, self.s_cu_6)
+        self.h += self.calcMiniCube(self.g_cu_7, self.s_cu_7)
+        self.h += self.calcMiniCube(self.g_cu_8, self.s_cu_8)
+
+    # def can_you_say_run(self):
+    #
+    #     for
+
+
+
+
+
+
+
+
 def get_h_prime(state, goal):
     if np.array_equal(state, goal):
         return 0
     else:
-        return 1
+        return analyze(state, goal).h
 
 def expand_rubik(last_move, state, goal):
     if last_move == -1:
