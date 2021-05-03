@@ -216,7 +216,7 @@ def playGame(indexPlayer1, indexPlayer2):
                         legalEnd = True
             move = (xStart, yStart, xEnd, yEnd)
         else:                                            # Computer player
-            startTime = datetime.now()
+            startTime = datetime.now() # We measure how long it takes to consider a move
             move = players[moduleIndices[playerIndex]].getMove(state)
             duration = datetime.now() - startTime
             if duration.seconds + duration.microseconds * 1e-6 >= timeLimit + timeTolerance:
@@ -301,7 +301,7 @@ def computerTournament(playerIndexList):
 win = GraphWin("Hold Your Horses!", boardWidth * squareSize, textHeight + boardHeight * squareSize, autoflush=False)
 win.setBackground("black")
 
-playerModuleList = ['Knight_Rider', 'Brain_Fog', 'Dark_Knight', 'Danley_Nemorin']    # Names of player files (without '.py' extension) and human player
+playerModuleList = ['Knight_Rider', 'Brain_Fog', 'Danley_Nemorin']    # Names of player files (without '.py' extension) and human player
 
 players = []        # Import player modules
 for player in playerModuleList[:-1]:
