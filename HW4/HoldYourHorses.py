@@ -301,7 +301,7 @@ def computerTournament(playerIndexList):
 win = GraphWin("Hold Your Horses!", boardWidth * squareSize, textHeight + boardHeight * squareSize, autoflush=False)
 win.setBackground("black")
 
-playerModuleList = ['Knight_Rider', 'Brain_Fog', 'Dark_Knight', 'Human Player']    # Names of player files (without '.py' extension) and human player 
+playerModuleList = ['Knight_Rider', 'Brain_Fog', 'Dark_Knight', 'Danley_Nemorin']    # Names of player files (without '.py' extension) and human player
 
 players = []        # Import player modules
 for player in playerModuleList[:-1]:

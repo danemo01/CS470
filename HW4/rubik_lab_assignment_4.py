@@ -210,9 +210,12 @@ def get_clicked_button():
 class analyze:
 
     def __init__(self, state, goal):
+
         self.h = 0
         self.state = state
         self.goal = goal
+
+       # self.h = self.calcHam()
 
         self.s_cu_1 = (state[0],state[13], state[18])
         self.s_cu_2 = (state[1], state[4], state[19])
@@ -232,29 +235,41 @@ class analyze:
         self.g_cu_7 = (goal[10], goal[7],  goal[23])
         self.g_cu_8 = (goal[11], goal[22], goal[14])
 
-        self.can_you_run()
+        self.m = self.calcMan()
+        self.h = self.calcHam()
+        self.m += self.h
+
+
+        #self.h = self.calcHam()
+
+    def calcHam(self):
+        h = 0
+        for i in range(len(self.state)):
+            if self.state[i] == self.goal[i]:
+                h += 1
+
+        return h
+
+    def calcMan(self):
+        m = self.calcMiniCube(self.s_cu_1, self.g_cu_1)
+        m += self.calcMiniCube(self.s_cu_2, self.g_cu_2)
+        m += self.calcMiniCube(self.s_cu_3, self.g_cu_3)
+        m += self.calcMiniCube(self.s_cu_4, self.g_cu_4)
+        m += self.calcMiniCube(self.s_cu_5, self.g_cu_5)
+        m += self.calcMiniCube(self.s_cu_6, self.g_cu_6)
+        m += self.calcMiniCube(self.s_cu_7, self.g_cu_7)
+        m += self.calcMiniCube(self.s_cu_8, self.g_cu_8)
+        return m
+
+
 
 
     def calcMiniCube(self, s_cube, g_cube):
-        something = 0
-
-        if s_cube[0] == g_cube[0]:
-            something+=0
-        elif s_cube[0] == g_cube[1]:
-            something+=1
-
-        if s_cube[1] == g_cube[2]:
-            something+=1
-        else:
-            something+=2
-
-        if s_cube[2] == 2:
-            something+=1
-        else:
-            something+=2
-
-
-        return (s_cube[0] + g_cube[0] ) - (s_cube[1] + g_cube[1]) + (s_cube[2] - g_cube[2])
+        i = 0
+        i += s_cube[0] + g_cube[0]
+        i += s_cube[1] + g_cube[1]
+        i += s_cube[2] + g_cube[2]
+        return i
 
     """
         I don't know, can you run.
@@ -265,15 +280,15 @@ class analyze:
     
     """
     def can_you_run(self):
-
-        self.h += self.calcMiniCube(self.g_cu_1, self.s_cu_1)
-        self.h += self.calcMiniCube(self.g_cu_2, self.s_cu_2)
-        self.h += self.calcMiniCube(self.g_cu_3, self.s_cu_3)
-        self.h += self.calcMiniCube(self.g_cu_4, self.s_cu_4)
-        self.h += self.calcMiniCube(self.g_cu_5, self.s_cu_5)
-        self.h += self.calcMiniCube(self.g_cu_6, self.s_cu_6)
-        self.h += self.calcMiniCube(self.g_cu_7, self.s_cu_7)
-        self.h += self.calcMiniCube(self.g_cu_8, self.s_cu_8)
+        m = 0
+        m += self.calcMiniCube(self.g_cu_1, self.s_cu_1)
+        m += self.calcMiniCube(self.g_cu_2, self.s_cu_2)
+        m += self.calcMiniCube(self.g_cu_3, self.s_cu_3)
+        m += self.calcMiniCube(self.g_cu_4, self.s_cu_4)
+        m += self.calcMiniCube(self.g_cu_5, self.s_cu_5)
+        m += self.calcMiniCube(self.g_cu_6, self.s_cu_6)
+        m += self.calcMiniCube(self.g_cu_7, self.s_cu_7)
+        m += self.calcMiniCube(self.g_cu_8, self.s_cu_8)
 
     # def can_you_say_run(self):
     #
@@ -290,7 +305,8 @@ def get_h_prime(state, goal):
     if np.array_equal(state, goal):
         return 0
     else:
-        return analyze(state, goal).h
+        h = analyze(state, goal).h
+        return h
 
 def expand_rubik(last_move, state, goal):
     if last_move == -1:
