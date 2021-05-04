@@ -101,8 +101,19 @@ def lookAhead(state, depthRemaining):
 # Set global variables and initialize any data structures that the player will need
 def initPlayer(_startState, _timeLimit, _victoryPoints, _moveLimit, _assignedPlayer):
     global startState, timeLimit, victoryPoints, moveLimit, assignedPlayer, boardWidth, boardHeight
-    startState, timeLimit, victoryPoints, moveLimit, assignedPlayer = _startState, _timeLimit, _victoryPoints, _moveLimit, _assignedPlayer 
-    (boardWidth, boardHeight) = startState.board.shape  
+
+    # At that start we got
+    # Move limit = 40
+    # _startState
+    # _timelimit = 3.0
+    # _victoryPoints? = 100
+
+    startState, timeLimit, victoryPoints, moveLimit, assignedPlayer = _startState, _timeLimit, _victoryPoints, _moveLimit, _assignedPlayer
+    (boardWidth, boardHeight) = startState.board.shape
+    print(f"{boardWidth} {boardHeight}")
+    pass
+
+
     # TODO: Put any initialization code here
 
 # Free up memory if player used huge data structures 
