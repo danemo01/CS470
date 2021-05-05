@@ -301,13 +301,22 @@ def computerTournament(playerIndexList):
 win = GraphWin("Hold Your Horses!", boardWidth * squareSize, textHeight + boardHeight * squareSize, autoflush=False)
 win.setBackground("black")
 
-playerModuleList = ['Knight_Rider', 'Brain_Fog', 'Danley_Nemorin', 'Danley_Nemorin']    # Names of player files (without '.py' extension) and human player
+playerModuleList = ['Knight_Rider', 'Brain_Fog', 'Dark_Knight', 'Danley_Nemorin', 'EMPTY']     # Names of player files (without '.py' extension) and human player
 
 players = []        # Import player modules
 for player in playerModuleList[:-1]:
     players.append(importlib.import_module(player))
 
-singleGame(2, 0)       # Play single game (computer vs. computer or human vs. computer). -1 indicates human player
-computerTournament([0, 1, 2])  # Play a tournament with any number of computer players (numbers refer to position in playerModuleList)
+danscore = 0
+knightscore = 0
+
+for i in range(10):
+
+    d, k = singleGame(3, 2)       # Play single game (computer vs. computer or human vs. computer). -1 indicates human player
+    danscore += d
+    knightscore += k
+
+print(f"final score:\n Dan_Rider - {danscore}\n Knight Rider - {knightscore}")
+#computerTournament([0, 1, 2])  # Play a tournament with any number of computer players (numbers refer to position in playerModuleList)
 
 win.close()

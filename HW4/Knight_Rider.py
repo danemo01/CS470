@@ -25,7 +25,9 @@ victoryScoreThresh = 1000 # An absolute score exceeds this value if and only if 
 minLookAhead = 2          # Initial search depth for iterative deepening
 maxLookAhead = 20          # Maximum search depth 
 
-# Compute list of legal moves for a given GameState and the player moving next 
+# Compute list of legal moves for a given GameState and the player moving next
+# This function returns every possible move every Knight can make
+# The tuple is (horseOriginalPos) (horseExpectedPos)
 def getMoveOptions(state):
     direction = [(1, -2), (2, -1), (2, 1), (1, 2), (-1, 2), (-2, 1), (-2, -1), (-1, -2)]    # Possible (dx, dy) moves
     moves = []
