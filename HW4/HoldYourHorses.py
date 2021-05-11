@@ -122,7 +122,8 @@ def getClickedSquare():
 
 # Compute list of legal moves for a given GameState and the player moving next 
 def getMoveOptions(state):
-    direction = [(1, -2), (2, -1), (2, 1), (1, 2), (-1, 2), (-2, 1), (-2, -1), (-1, -2)]    # Possible (dx, dy) moves
+    #direction = [(1, -2), (2, -1), (2, 1), (1, 2), (-1, 2), (-2, 1), (-2, -1), (-1, -2)]    # Possible (dx, dy) moves
+    direction = [(-1, 2), (-2, 1), (-2, -1), (-1, -2),(1, -2), (2, -1), (2, 1), (1, 2),]    # Possible (dx, dy) moves
     moves = []
     for xStart in range(boardWidth):                                    # Search board for player's pieces
         for yStart in range(boardHeight):
@@ -309,12 +310,19 @@ for player in playerModuleList[:-1]:
 
 danscore = 0
 knightscore = 0
+p = (0, 3)
 
 for i in range(10):
 
-    d, k = singleGame(3, 2)       # Play single game (computer vs. computer or human vs. computer). -1 indicates human player
+    #singleGame()
+    #p = (0,2)
+
+    d, k = singleGame(p[0], p[1])       # Play single game (computer vs. computer or human vs. computer). -1 indicates human player
     danscore += d
     knightscore += k
+
+    p = (p[1], p[0])
+
 
 print(f"final score:\n Dan_Rider - {danscore}\n Knight Rider - {knightscore}")
 #computerTournament([0, 1, 2])  # Play a tournament with any number of computer players (numbers refer to position in playerModuleList)
